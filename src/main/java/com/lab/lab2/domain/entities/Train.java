@@ -1,4 +1,4 @@
-package com.lab.lab2.domain;
+package com.lab.lab2.domain.entities;
 
 import com.lab.lab2.domain.enums.Color;
 import com.lab.lab2.domain.enums.Type;

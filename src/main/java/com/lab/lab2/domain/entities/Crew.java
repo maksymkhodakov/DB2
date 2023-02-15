@@ -1,4 +1,4 @@
-package com.lab.lab2.domain;
+package com.lab.lab2.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

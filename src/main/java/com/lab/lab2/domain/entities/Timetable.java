@@ -1,10 +1,7 @@
-package com.lab.lab2.domain;
+package com.lab.lab2.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +10,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "timetables")
 public class Timetable extends AbstractEntity {
 
     @Column(name = "country")
-    private String country = "UKRAINE";
+    private String country;
 
     @Column(name = "name")
     private String name;
@@ -27,7 +25,7 @@ public class Timetable extends AbstractEntity {
     private String description;
 
     @Column(name = "is_working")
-    private boolean isWorking = true;
+    private Boolean isWorking;
 
     @OneToMany(
             mappedBy = "timetable",
