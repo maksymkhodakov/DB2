@@ -4,16 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "trips")
 @EqualsAndHashCode
+@Entity
+@Table(name = "trips_info_test")
 public class Trip extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
@@ -28,16 +26,11 @@ public class Trip extends AbstractEntity {
     private LocalDateTime arrivalDate;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     private Platform platformDeparture;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     private Platform platformArrival;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Timetable timetable;
-
-    @ManyToMany(mappedBy = "trips")
-    private List<Train> trains = new ArrayList<>();
 }

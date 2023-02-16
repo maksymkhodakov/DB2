@@ -46,20 +46,20 @@ public class Train extends AbstractEntity {
             CascadeType.MERGE
     })
     @JoinTable(
-            name = "train_trip",
+            name = "train_timetable",
             joinColumns = @JoinColumn(name = "train_id"),
-            inverseJoinColumns = @JoinColumn(name = "trip_id")
+            inverseJoinColumns = @JoinColumn(name = "timetable_id")
     )
-    private List<Trip> trips = new ArrayList<>();
+    private List<Timetable> timetables = new ArrayList<>();
 
-    public void addTrip(Trip trip) {
-        trips.add(trip);
-        trip.getTrains().add(this);
+    public void addTimetable(Timetable timetable) {
+        timetables.add(timetable);
+        timetable.getTrains().add(this);
     }
 
-    public void removeTrip(Trip trip) {
-        trips.remove(trip);
-        trip.getTrains().remove(this);
+    public void removeTimetable(Timetable timetable) {
+        timetables.remove(timetable);
+        timetable.getTrains().remove(this);
     }
 
     public void addCrew(Crew crew) {

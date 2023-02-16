@@ -3,6 +3,7 @@ package com.lab.lab2.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,15 @@ public class Timetable extends AbstractEntity {
 
     @Column(name = "is_working")
     private Boolean isWorking;
+
+    @ManyToMany(mappedBy = "timetables")
+    private List<Train> trains = new ArrayList<>();
+
+    @Column(name = "departure_date")
+    private LocalDateTime departureDate;
+
+    @Column(name = "arrival_date")
+    private LocalDateTime arrivalDate;
 
     @OneToMany(
             mappedBy = "timetable",

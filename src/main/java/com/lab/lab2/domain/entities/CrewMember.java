@@ -14,11 +14,9 @@ import lombok.*;
 @Entity
 @Table(name = "crew_members")
 public class CrewMember extends AbstractEntity {
-    @NotBlank
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @NotBlank
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
@@ -31,7 +29,6 @@ public class CrewMember extends AbstractEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Email
     @Column(name = "email", nullable = false)
     private String email;
 
