@@ -2,6 +2,7 @@ package com.lab.lab2.repository;
 
 import com.lab.lab2.domain.DTO.AvgCrewTrainAnalyticsDTO;
 import com.lab.lab2.domain.DTO.CrewMemberDTO;
+import com.lab.lab2.domain.data.CrewMemberData;
 import com.lab.lab2.domain.entities.CrewMember;
 import com.lab.lab2.domain.enums.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
-
 /*    # Native Query1
     select cm.id, cm.created, cm.updated, age, email, first_name, last_name, phone_number, years_of_experience, crew_id
     from crew_members cm
@@ -49,4 +50,9 @@ public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
             "inner join c.train t " +
             "where t.color in (:colors) and t.size < :limitTrainSize")
     AvgCrewTrainAnalyticsDTO specialQuery2(List<Color> colors, Integer limitTrainSize);
+
+    @Query("select new com.lab.lab2.domain.DTO.CrewMemberDTO(cm.id, cm.created, cm.updated," +
+            " cm.firstName, cm.lastName, cm.age, cm.yearsOfExperience, cm.phoneNumber, cm.email, cm.crew.id)" +
+            "  from CrewMember cm where cm.id = :id")
+    Optional<CrewMemberDTO> fetchById(Long id);
 }

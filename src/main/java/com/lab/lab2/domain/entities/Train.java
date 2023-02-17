@@ -3,7 +3,6 @@ package com.lab.lab2.domain.entities;
 import com.lab.lab2.domain.enums.Color;
 import com.lab.lab2.domain.enums.Type;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -18,11 +17,9 @@ import java.util.List;
 @Table(name = "trains")
 @EqualsAndHashCode
 public class Train extends AbstractEntity {
-    @NotBlank
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotBlank
     @Column(name = "size", nullable = false)
     private Integer size;
 

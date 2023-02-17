@@ -1,7 +1,6 @@
 package com.lab.lab2.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,11 +14,9 @@ import java.util.List;
 @Table(name = "crews")
 @EqualsAndHashCode
 public class Crew extends AbstractEntity {
-    @NotBlank
     @Column(name = "crew_name", nullable = false)
     private String crewName;
 
-    @NotBlank
     @Column(name = "rating", nullable = false)
     private Integer ratingScore;
 
