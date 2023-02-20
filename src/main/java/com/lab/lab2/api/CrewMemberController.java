@@ -35,6 +35,8 @@ public class CrewMemberController {
         crewMemberToUpdate.setAge(crewMemberData.getAge());
         crewMemberToUpdate.setYearsOfExperience(crewMemberData.getYearsOfExperience());
         crewMemberToUpdate.setCrew(crewMemberData.getCrew());
+        crewMemberToUpdate.setUpdateDate();
+        crewMemberRepository.save(crewMemberToUpdate);
         return ResponseEntity.ok(crewMemberToUpdate);
     }
 
@@ -42,5 +44,11 @@ public class CrewMemberController {
     public ResponseEntity<CrewMemberDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(crewMemberRepository.fetchById(id)
                 .orElseThrow(() -> new CrewMemberNotFound("Crew member with id: " + id +" not found!")));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        crewMemberRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

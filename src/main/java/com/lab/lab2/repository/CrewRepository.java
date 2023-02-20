@@ -14,6 +14,10 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             " from Crew c where c.id = :id")
     Optional<CrewDTO> fetchById(Long id);
 
+    @Override
+    @Query("select c from Crew c left join c.crewMembers where c.id = :id")
+    Optional<Crew> findById(Long id);
+
     @Modifying
     @Transactional
     @Query(value = "update crew_members cm set cm.crew_id = :crewId where cm.id = :crewMemberId", nativeQuery = true)

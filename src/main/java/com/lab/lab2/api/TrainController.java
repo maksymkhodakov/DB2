@@ -33,6 +33,8 @@ public class TrainController {
         trainToUpdate.setType(trainData.getType());
         trainToUpdate.setCrews(trainData.getCrews());
         trainToUpdate.setTimetables(trainData.getTimetables());
+        trainToUpdate.setUpdateDate();
+        trainRepository.save(trainToUpdate);
         return ResponseEntity.ok(trainToUpdate);
     }
 
@@ -40,5 +42,11 @@ public class TrainController {
     public ResponseEntity<Train> getTrain(@PathVariable Long id) {
         return ResponseEntity.ok(trainRepository.findById(id)
                 .orElseThrow(() -> new TrainNotFoundException("Train with id: " + id +" not found!")));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        trainRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

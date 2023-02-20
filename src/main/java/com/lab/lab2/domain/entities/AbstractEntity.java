@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -35,6 +36,10 @@ public abstract class AbstractEntity implements Serializable {
     @PreUpdate
     public void toUpdate() {
         setUpdated(LocalDateTime.now());
+    }
+
+    public void setUpdateDate() {
+        updated = LocalDateTime.now(ZoneOffset.UTC);
     }
 
     @Override

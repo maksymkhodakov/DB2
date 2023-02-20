@@ -1,5 +1,6 @@
 package com.lab.lab2.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class Crew extends AbstractEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<CrewMember> crewMembers = new ArrayList<>();
 
     public void addCrewMember(CrewMember crewMember) {
