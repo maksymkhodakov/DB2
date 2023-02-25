@@ -1,5 +1,6 @@
 package com.lab.lab2.repository;
 
+import com.lab.lab2.domain.DTO.TrainDTO;
 import com.lab.lab2.domain.DTO.TrainSizesDTO;
 import com.lab.lab2.domain.entities.Train;
 import com.lab.lab2.domain.enums.Type;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainRepository extends JpaRepository<Train, Long> {
 /*    # Native Query 3
@@ -29,4 +31,8 @@ public interface TrainRepository extends JpaRepository<Train, Long> {
             "inner join tr.crews c " +
             "where c.ratingScore > :rating")
     TrainSizesDTO runQuery4(Integer rating);
+
+    @Query("select new com.lab.lab2.domain.DTO.TrainDTO(t.name, t.size, t.color, t.type) " +
+            "from Train t where t.id = :id")
+    Optional<TrainDTO> fetchById(Long id);
 }

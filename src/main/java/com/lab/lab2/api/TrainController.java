@@ -1,5 +1,6 @@
 package com.lab.lab2.api;
 
+import com.lab.lab2.domain.DTO.TrainDTO;
 import com.lab.lab2.domain.data.TrainData;
 import com.lab.lab2.domain.entities.Train;
 import com.lab.lab2.exceptions.TrainNotFoundException;
@@ -39,8 +40,8 @@ public class TrainController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Train> getTrain(@PathVariable Long id) {
-        return ResponseEntity.ok(trainRepository.findById(id)
+    public ResponseEntity<TrainDTO> getTrain(@PathVariable Long id) {
+        return ResponseEntity.ok(trainRepository.fetchById(id)
                 .orElseThrow(() -> new TrainNotFoundException("Train with id: " + id +" not found!")));
     }
 
