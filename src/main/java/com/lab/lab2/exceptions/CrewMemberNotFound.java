@@ -4,8 +4,4 @@ public class CrewMemberNotFound extends RuntimeException {
     public CrewMemberNotFound(String message) {
         super(message);
     }
-
-    public CrewMemberNotFound(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
