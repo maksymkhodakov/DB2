@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CrewRepository extends JpaRepository<Crew, Long> {
     @Query("select new com.lab.lab2.domain.DTO.CrewDTO(c.crewName, c.ratingScore)" +
             " from Crew c where c.id = :id")
     Optional<CrewDTO> fetchById(Long id);
+
+    @Query("select new com.lab.lab2.domain.DTO.CrewDTO(c.crewName, c.ratingScore) from Crew c")
+    List<CrewDTO> fetchAll();
 
     @Override
     @Query("select c from Crew c left join c.crewMembers where c.id = :id")

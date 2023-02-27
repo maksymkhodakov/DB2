@@ -55,4 +55,9 @@ public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
             " cm.firstName, cm.lastName, cm.age, cm.yearsOfExperience, cm.phoneNumber, cm.email, cm.crew.id)" +
             "  from CrewMember cm where cm.id = :id")
     Optional<CrewMemberDTO> fetchById(Long id);
+
+    @Query("select new com.lab.lab2.domain.DTO.CrewMemberDTO(cm.id, cm.created, cm.updated," +
+            " cm.firstName, cm.lastName, cm.age, cm.yearsOfExperience, cm.phoneNumber, cm.email, cm.crew.id)" +
+            "  from CrewMember cm")
+    List<CrewMemberDTO> fetchAll();
 }

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/train")
 @RequiredArgsConstructor
@@ -43,6 +45,11 @@ public class TrainController {
     public ResponseEntity<TrainDTO> getTrain(@PathVariable Long id) {
         return ResponseEntity.ok(trainRepository.fetchById(id)
                 .orElseThrow(() -> new TrainNotFoundException("Train with id: " + id +" not found!")));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<TrainDTO>> getAll() {
+        return ResponseEntity.ok(trainRepository.fetchAll());
     }
 
     @DeleteMapping("/delete/{id}")

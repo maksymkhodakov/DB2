@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/crew-members")
 @RequiredArgsConstructor
@@ -44,6 +46,11 @@ public class CrewMemberController {
     public ResponseEntity<CrewMemberDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(crewMemberRepository.fetchById(id)
                 .orElseThrow(() -> new CrewMemberNotFound("Crew member with id: " + id +" not found!")));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<CrewMemberDTO>> getAll() {
+        return ResponseEntity.ok(crewMemberRepository.fetchAll());
     }
 
     @DeleteMapping("/delete/{id}")

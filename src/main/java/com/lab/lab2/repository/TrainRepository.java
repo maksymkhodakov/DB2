@@ -35,4 +35,7 @@ public interface TrainRepository extends JpaRepository<Train, Long> {
     @Query("select new com.lab.lab2.domain.DTO.TrainDTO(t.name, t.size, t.color, t.type) " +
             "from Train t where t.id = :id")
     Optional<TrainDTO> fetchById(Long id);
+
+    @Query("select new com.lab.lab2.domain.DTO.TrainDTO(t.name, t.size, t.color, t.type) from Train t")
+    List<TrainDTO> fetchAll();
 }
