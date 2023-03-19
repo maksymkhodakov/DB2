@@ -1,26 +1,37 @@
 package com.lab.lab2.api;
 
-import com.lab.lab2.repository.CrewMemberRepository;
-import com.lab.lab2.repository.CrewRepository;
-import com.lab.lab2.repository.TrainRepository;
+import com.lab.lab2.domain.DTO.DataWrapper;
+import com.lab.lab2.domain.DTO.TripDataDTO;
+import com.lab.lab2.domain.enums.Color;
+import com.lab.lab2.domain.enums.Type;
+import com.lab.lab2.repository.*;
 import com.lab.lab2.services.ExcelWriter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.lab.lab2.services.impl.ExcelWriterImpl.DEFAULT_DEPTH;
+import static com.lab.lab2.services.impl.ExcelWriterImpl.EXCEL_MIME_TYPE;
 
 @Controller
 @RequiredArgsConstructor
-public class WebController {
-    private final CrewRepository crewRepository;
+public class WebController { private final CrewRepository crewRepository;
     private final CrewMemberRepository crewMemberRepository;
     private final TrainRepository trainRepository;
+    private final TripRepository tripRepository;
+    private final CountryRepository countryRepository;
     private final ExcelWriter excelWriter;
-    private static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
 
 
     @GetMapping("/index")
@@ -56,5 +67,168 @@ public class WebController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
                 .contentType(MediaType.parseMediaType(file.getContentType()))
                 .body(file.getResource());
+    }
+
+    @PostMapping("/query1")
+    public ResponseEntity<Resource> query1(@RequestParam String year,
+                                           @RequestParam String month,
+                                           @RequestParam String day,
+                                           @RequestParam String ratingScore) {
+        String errors;
+        try {
+            LocalDateTime dateTime = LocalDateTime.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day), 0, 0);
+            final var crewMember = crewMemberRepository.specialQuery1(dateTime, Integer.parseInt(ratingScore));
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, List.of(crewMember));
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query2")
+    public ResponseEntity<Resource> query2(@RequestParam String colors,
+                                           @RequestParam String trainMaxSize) {
+        String errors;
+        try {
+            List<Color> list = Arrays.stream(colors.split(",")).map(Color::valueOf).toList();
+            final var analytics = crewMemberRepository.specialQuery2(list, Integer.parseInt(trainMaxSize));
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, List.of(analytics));
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query3")
+    public ResponseEntity<Resource> query3(@RequestParam String type,
+                                           @RequestParam String max,
+                                           @RequestParam String min) {
+        String errors;
+        try {
+            final var trainsData = trainRepository.runQuery3(Type.valueOf(type), Integer.parseInt(min), Integer.parseInt(max))
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, trainsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query4")
+    public ResponseEntity<Resource> query4(@RequestParam String rating) {
+        String errors;
+        try {
+            final var trainsData = trainRepository.runQuery4(Integer.parseInt(rating));
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, List.of(trainsData));
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query5")
+    public ResponseEntity<Resource> query5(@RequestParam String description) {
+        String errors;
+        try {
+            final var tripsData = tripRepository.runQuery5(description)
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, tripsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query6")
+    public ResponseEntity<Resource> query6(@RequestParam String description) {
+        String errors;
+        try {
+            final var countriesData = countryRepository.runQuery6(description)
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, countriesData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query7")
+    public ResponseEntity<Resource> query7(@RequestParam String countryName) {
+        String errors;
+        try {
+            final var tripsData = tripRepository.runQuery7(countryName)
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, tripsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query8")
+    public ResponseEntity<Resource> query8(@RequestParam String tripName,
+                                           @RequestParam LocalDate departureDate,
+                                           @RequestParam LocalDate arrivalDate,
+                                           @RequestParam Type type) {
+        String errors;
+        try {
+            final var tripsData = tripRepository.runQuery8(tripName, departureDate.toString(),
+                            arrivalDate.toString(), type.name())
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, tripsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
     }
 }

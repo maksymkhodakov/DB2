@@ -7,7 +7,15 @@
 <body style="background-color: khaki">
 <br>
 <div class="row h-100 justify-content-center align-items-center">
-    <h6>Welcome to the Train station management system! <a th:href="@{/swagger-ui/index.html}">Link to ADMIN PAGE</a></h6>
+    <h6>Welcome to the Train station management system!
+        <br>
+        <div class="row h-100 justify-content-center align-items-center">
+            <a th:href="@{/swagger-ui/index.html}">Link to ADMIN PAGE</a>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <a href="https://docs.google.com/document/d/13fdAWzAbfXAc8_IINqo--lX-2VTdLjpM/edit?usp=sharing&ouid=115849586675546515382&rtpof=true&sd=true">Link to DOCUMENTATION</a>
+        </div>
+    </h6>
 </div>
 <br>
     <meta charset="utf-8">
@@ -45,8 +53,115 @@
             </form>
         </div>
     </div>
+</div>
+<br>
+<br>
 
+<h1 align="center">Query1</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query1}" method="post">
+        <p>Year: <input type="text" th:value="${year}" name="year"/></p>
+        <p>Month: <input type="text" th:value="${month}" name="month"/></p>
+        <p>Day: <input type="text" th:value="${day}" name="day"/></p>
+        <p>Rating score: <input type="text" th:value="${ratingScore}" name="ratingScore"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
 </div>
 
+<br>
+<br>
+<br>
+
+<h1 align="center">Query2</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query2}" method="post">
+        <p>Colors: <input type="text" th:value="${colors}" name="colors"/></p>
+        <p>Train max size: <input type="text" th:value="${trainMaxSize}" name="trainMaxSize"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query3</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query3}" method="post">
+        <p>Type: <select name="type" th:value="${type}">
+            <option th:each="type : ${T(com.lab.lab2.domain.enums.Type).values()}"
+                    th:value="${type}" th:text="${type}"></option>
+        </select></p>
+        <p>Max: <input type="text" th:value="${max}" name="max"/></p>
+        <p>Min: <input type="text" th:value="${min}" name="min"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query4</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query4}" method="post">
+        <p>Rating: <input type="text" th:value="${rating}" name="rating"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query5</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query5}" method="post">
+        <p>Platform description: <input type="text" th:value="${description}" name="description"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query6</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query6}" method="post">
+        <p>Platform description: <input type="text" th:value="${description}" name="description"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query7</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query7}" method="post">
+        <p>Country name: <input type="text" th:value="${countryName}" name="countryName"/></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 align="center">Query7</h1>
+<div class="row h-100 justify-content-center align-items-center">
+    <form th:action="@{/query8}" method="post">
+        <p>Trip name: <input type="text" th:value="${tripName}" name="tripName"/></p>
+        <p>Departure date: <input type="date" th:value="${departureDate}" name="departureDate"/></p>
+        <p>Arrival date: <input type="date" th:value="${arrivalDate}" name="arrivalDate"/></p>
+        <p>Type: <select name="type" th:value="${type}">
+            <option th:each="type : ${T(com.lab.lab2.domain.enums.Type).values()}"
+                    th:value="${type}" th:text="${type}"></option>
+        </select></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
 </body>
 </html>

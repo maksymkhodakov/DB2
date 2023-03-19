@@ -1,9 +1,6 @@
 package com.lab.lab2.api;
 
-import com.lab.lab2.domain.DTO.AvgCrewTrainAnalyticsDTO;
-import com.lab.lab2.domain.DTO.CrewMemberDTO;
-import com.lab.lab2.domain.DTO.TrainSizesDTO;
-import com.lab.lab2.domain.DTO.TripDataDTO;
+import com.lab.lab2.domain.DTO.*;
 import com.lab.lab2.domain.enums.Color;
 import com.lab.lab2.domain.enums.Type;
 import com.lab.lab2.repository.CountryRepository;
@@ -42,10 +39,14 @@ public class SpecialQueriesController {
     }
 
     @GetMapping("/special-query-3")
-    public List<String> runQuery3(@RequestParam Type type,
-                                  @RequestParam Integer max,
-                                  @RequestParam Integer min) {
-        return trainRepository.runQuery3(type, min, max);
+    public List<DataWrapper> runQuery3(@RequestParam Type type,
+                                       @RequestParam Integer max,
+                                       @RequestParam Integer min) {
+        return trainRepository
+                .runQuery3(type, min, max)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
     }
 
     @GetMapping("/special-query-4")
@@ -54,23 +55,38 @@ public class SpecialQueriesController {
     }
 
     @GetMapping("/special-query-5")
-    public List<String> runQuery5(@RequestParam String description) {
-        return tripRepository.runQuery5(description);
+    public List<DataWrapper> runQuery5(@RequestParam String description) {
+        return tripRepository
+                .runQuery5(description)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
     }
 
     @GetMapping("/special-query-6")
-    public List<String> runQuery6(@RequestParam String description) {
-        return countryRepository.runQuery6(description);
+    public List<DataWrapper> runQuery6(@RequestParam String description) {
+        return countryRepository
+                .runQuery6(description)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
     }
 
     @GetMapping("/special-query-7")
-    public List<String> runQuery7(@RequestParam String countryName) {
-        return tripRepository.runQuery7(countryName);
+    public List<DataWrapper> runQuery7(@RequestParam String countryName) {
+        return tripRepository
+                .runQuery7(countryName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
     }
 
     @PostMapping("/special-query-8")
-    public List<String> runQuery8(@RequestBody TripDataDTO tripData) {
+    public List<DataWrapper> runQuery8(@RequestBody TripDataDTO tripData) {
         return tripRepository.runQuery8(tripData.getTripName(), tripData.getDepartureDate().toString(),
-                tripData.getArrivalDate().toString(), tripData.getType().name());
+                tripData.getArrivalDate().toString(), tripData.getType().name())
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
     }
 }

@@ -1,5 +1,6 @@
 package com.lab.lab2.repository;
 
+import com.lab.lab2.domain.DTO.DataWrapper;
 import com.lab.lab2.domain.entities.Trip;
 import com.lab.lab2.domain.enums.Type;
 import org.springframework.data.jpa.repository.JpaRepository;

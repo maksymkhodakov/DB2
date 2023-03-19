@@ -1,5 +1,6 @@
 package com.lab.lab2.repository;
 
+import com.lab.lab2.domain.DTO.DataWrapper;
 import com.lab.lab2.domain.DTO.TrainDTO;
 import com.lab.lab2.domain.DTO.TrainSizesDTO;
 import com.lab.lab2.domain.entities.Train;

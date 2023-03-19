@@ -23,6 +23,8 @@ import java.util.List;
 public class ExcelWriterImpl implements ExcelWriter {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final Integer DEFAULT_DEPTH = 2;
+    public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
 
     @Override
     public <T> DownloadFileDTO writeToExcel(String fileName, String contentType, List<T> data) {
@@ -38,6 +40,14 @@ public class ExcelWriterImpl implements ExcelWriter {
             e.printStackTrace();
         }
         return new DownloadFileDTO();
+    }
+
+    @Override
+    public String generateExcelFileName(Integer depth) {
+        if (depth < 0) {
+            return "filename.xlsx";
+        }
+        return Thread.currentThread().getStackTrace()[depth].getMethodName() + ".xlsx";
     }
 
     private static <T> void fillData(List<T> data, Sheet sheet, List<String> fieldNames) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
