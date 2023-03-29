@@ -231,4 +231,44 @@ public class WebController { private final CrewRepository crewRepository;
             return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
         }
     }
+
+    @PostMapping("/query9")
+    public ResponseEntity<Resource> query9(@RequestParam String tripName) {
+        String errors;
+        try {
+            final var tripsData = tripRepository.runQuery9(tripName)
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, tripsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
+
+    @PostMapping("/query10")
+    public ResponseEntity<Resource> query10(@RequestParam String tripName) {
+        String errors;
+        try {
+            final var tripsData = tripRepository.runQuery10(tripName)
+                    .stream()
+                    .map(DataWrapper::new)
+                    .toList();
+            final var file = excelWriter.writeToExcel(excelWriter.generateExcelFileName(DEFAULT_DEPTH), EXCEL_MIME_TYPE, tripsData);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, file.getContentDispositionHeader())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getResource());
+        } catch (Exception e) {
+            errors = e.getMessage();
+            return ResponseEntity.ok(new ByteArrayResource(errors.getBytes()));
+        }
+    }
 }

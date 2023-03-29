@@ -2,7 +2,6 @@ package com.lab.lab2.repository;
 
 import com.lab.lab2.domain.DTO.AvgCrewTrainAnalyticsDTO;
 import com.lab.lab2.domain.DTO.CrewMemberDTO;
-import com.lab.lab2.domain.data.CrewMemberData;
 import com.lab.lab2.domain.entities.CrewMember;
 import com.lab.lab2.domain.enums.Color;
 import org.springframework.data.jpa.repository.JpaRepository;

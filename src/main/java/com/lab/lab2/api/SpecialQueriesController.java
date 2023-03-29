@@ -89,4 +89,22 @@ public class SpecialQueriesController {
                 .map(DataWrapper::new)
                 .toList();
     }
+
+    @GetMapping("special-query-9")
+    public List<DataWrapper> runQuery9(@RequestParam("tripName") String tripName) {
+        return tripRepository
+                .runQuery9(tripName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
+    }
+
+    @GetMapping("special-query-10")
+    public List<DataWrapper> runQuery10(@RequestParam("tripName") String tripName) {
+        return tripRepository
+                .runQuery10(tripName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
+    }
 }

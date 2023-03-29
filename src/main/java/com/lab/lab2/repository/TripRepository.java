@@ -1,12 +1,8 @@
 package com.lab.lab2.repository;
 
-import com.lab.lab2.domain.DTO.DataWrapper;
 import com.lab.lab2.domain.entities.Trip;
-import com.lab.lab2.domain.enums.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
@@ -48,4 +44,33 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
             "                                inner join trips_info_test tri on tri.id = tt.timetable_id " +
             "         where tri.departure_date > :departureDate and tri.arrival_date < :arrivalDate)));", nativeQuery = true)
     List<String> runQuery8(String tripName, String departureDate, String arrivalDate, String type);
+
+    @Query(value = "select CONCAT('Id: ', tit.id,' Name: ', tit.name, ' ', 'Notes: ', tit.notes) as result " +
+            "from trips_info_test tit " +
+            "where CONCAT('Id: ', tit.id,' Name: ', tit.name, ' ', 'Notes: ', tit.notes) is not null " +
+            "  and tit.name <> :tripName and " +
+            "      not exists " +
+            "          ((select p.id from platforms p inner join trips_info ti on p.id = ti.platform_arrival_id) " +
+            "      except " +
+            "      (select p.id from platforms p inner join trips_info ti on p.id = ti.platform_arrival_id where ti.name = :tripName)) " +
+            "  and not exists( " +
+            "    (select p.id from platforms p inner join trips_info ti on p.id = ti.platform_arrival_id where ti.name = :tripName)) " +
+            "    except " +
+            "    ((select p.id from platforms p inner join trips_info ti on p.id = ti.platform_arrival_id) " +
+            ");", nativeQuery = true)
+    List<String> runQuery9(String tripName);
+
+    @Query(value = "select CONCAT('Id: ', tit.id,' Name: ', tit.name, ' ', 'Notes: ', tit.notes) as result " +
+            "from trips_info_test tit " +
+            "where CONCAT('Id: ', tit.id,' Name: ', tit.name, ' ', 'Notes: ', tit.notes) is not null " +
+            "  and tit.name = :tripName and " +
+            "      not exists " +
+            "          ((select platforms.id from platforms) " +
+            "          except " +
+            "          (select trips_info_test.platform_departure_id from trips_info_test)) " +
+            "  and not exists " +
+            "      ((select trips_info_test.platform_departure_id from trips_info_test) " +
+            "      except " +
+            "      (select platforms.id from platforms));", nativeQuery = true)
+    List<String> runQuery10(String tripName);
 }
