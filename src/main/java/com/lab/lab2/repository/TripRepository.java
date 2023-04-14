@@ -73,4 +73,53 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
             "      except " +
             "      (select platforms.id from platforms));", nativeQuery = true)
     List<String> runQuery10(String tripName);
+
+    @Query(value = "select distinct(tit.name) from trips_info_test tit " +
+            "                where (tit.platform_arrival_id in " +
+            "                      ( " +
+            "                          select platform_arrival_id from trips_info_test tit where name = :tripName " +
+            "                          UNION " +
+            "                          select platform_departure_id from trips_info_test where name = :tripName " +
+            "                      ) " +
+            "                  or tit.platform_departure_id in " +
+            "                      ( " +
+            "                          select platform_arrival_id from trips_info_test tit where name = :tripName " +
+            "                          UNION " +
+            "                          select platform_departure_id from trips_info_test where name = :tripName " +
+            "                      ) " +
+            "                    ) " +
+            "                  and tit.name <> :tripName", nativeQuery = true)
+    List<String> runQueryAdditional11(String tripName);
+
+    @Query(value = "select tit.name from trips_info_test tit " +
+            "where tit.name <> 'trip_1' and not exists( " +
+            "    ( " +
+            "        select * from platforms where platforms.trip_id = (select id from trips_info_test where name = :tripName) " +
+            "    ) " +
+            "    except " +
+            "    ( " +
+            "        (select * from platforms where platforms.trip_id = tit.platform_departure_id and platforms.trip_id <> (select id from trips_info_test where name = :tripName)) " +
+            "    ) " +
+            ");", nativeQuery = true)
+    List<String> runQueryAdditional12(String tripName);
+
+    @Query(value = "select tit.name from trips_info_test tit " +
+            "where tit.name <> 'trip_1' and tit.notes not like '%TRANSITION%' and not exists( " +
+            "    ( " +
+            "        select * from platforms where platforms.trip_id = (select id from trips_info_test where name = :tripName) " +
+            "    ) " +
+            "    except " +
+            "    ( " +
+            "        (select * from platforms where platforms.trip_id = tit.platform_arrival_id and platforms.trip_id in (select id from trips_info_test where name = :tripName)) " +
+            "    ) " +
+            ") and not exists( " +
+            "    ( " +
+            "        (select * from platforms where platforms.trip_id = tit.platform_arrival_id and platforms.trip_id in (select id from trips_info_test where name = :tripName)) " +
+            "    ) " +
+            "    except " +
+            "    ( " +
+            "        select * from platforms where platforms.trip_id = (select id from trips_info_test where name = :tripName) " +
+            "    )" +
+            ");", nativeQuery = true)
+    List<String> runQueryAdditional13(String tripName);
 }

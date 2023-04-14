@@ -107,4 +107,31 @@ public class SpecialQueriesController {
                 .map(DataWrapper::new)
                 .toList();
     }
+
+    @GetMapping("special-query-11")
+    public List<DataWrapper> runQuery11(@RequestParam("tripName") String tripName) {
+        return tripRepository
+                .runQueryAdditional11(tripName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
+    }
+
+    @GetMapping("special-query-12")
+    public List<DataWrapper> runQuery12(@RequestParam("tripName") String tripName) {
+        return tripRepository
+                .runQueryAdditional12(tripName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
+    }
+
+    @GetMapping("special-query-13")
+    public List<DataWrapper> runQuery13(@RequestParam("tripName") String tripName) {
+        return tripRepository
+                .runQueryAdditional13(tripName)
+                .stream()
+                .map(DataWrapper::new)
+                .toList();
+    }
 }
