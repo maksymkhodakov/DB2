@@ -30,6 +30,9 @@ public class Country extends AbstractEntity {
     )
     private List<City> cities = new ArrayList<>();
 
+    @ManyToOne
+    private Continent continent;
+
     public void addCity(City city) {
         cities.add(city);
         city.setCountry(this);

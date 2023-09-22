@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "trips_info_test")
+@Table(name = "trips")
 public class Trip extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
@@ -33,4 +33,7 @@ public class Trip extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Timetable timetable;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Dashboard dashboard;
 }
